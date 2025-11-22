@@ -9,10 +9,17 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/db": "^0.18.3",
     "@astrojs/netlify": "^6.6.2",
     "@tailwindcss/vite": "^4.1.17",
     "astro": "^5.16.0",
+    "bcryptjs": "^3.0.3",
     "sweetalert2": "^11.26.3",
-    "tailwindcss": "^4.1.17"
+    "tailwindcss": "^4.1.17",
+    "uuid": "^13.0.0"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^3.0.0",
+    "@types/uuid": "^11.0.0"
   }
 }

@@ -7,6 +7,8 @@ import { fileURLToPath } from 'url';
 
 import netlify from '@astrojs/netlify';
 
+import db from '@astrojs/db';
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 // https://astro.build/config
@@ -19,6 +21,8 @@ export default defineConfig({
       },
     },
   },
+
   output: 'server',
   adapter: netlify(),
+  integrations: [db()],
 });
