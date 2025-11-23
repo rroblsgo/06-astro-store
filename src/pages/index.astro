@@ -1,7 +1,28 @@
 ---
 import MainLayout from '@/layouts/MainLayout.astro';
+import { getSession } from 'auth-astro/server';
+
+const session = await getSession(Astro.request);
+console.log('User session (index.astro):', session);
+const { user } = session ?? {};
 ---
 
 <MainLayout>
   <h1 class="text-3xl">Home Page</h1>
+  {user ? (
+    <div class="mt-4 p-4">
+    <code>
+      <!-- {JSON.stringify(user, null, 2)} -->
+      <p>{'{'}</p>
+      <p>id: {user?.id}</p>
+      <p>email: {user?.email}</p>
+      <p>name: {user?.name}</p>
+      <p>role: {user?.role}</p>
+      <p>createdAt: {user?.createdAt}</p>
+      <p>{'}'}</p>
+    </code>
+  </div>
+  ) : (
+    <p class="mt-2">You are not logged in. Please log in to access more features.</p>
+  )}
 </MainLayout>

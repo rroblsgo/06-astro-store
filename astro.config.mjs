@@ -1,13 +1,13 @@
 // @ts-check
+import db from '@astrojs/db';
+import netlify from '@astrojs/netlify';
 import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'astro/config';
-
+import auth from 'auth-astro';
 import { dirname, resolve } from 'path';
 import { fileURLToPath } from 'url';
 
-import netlify from '@astrojs/netlify';
-
-import db from '@astrojs/db';
+// import node from '@astrojs/node';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -15,6 +15,9 @@ const __dirname = dirname(__filename);
 export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
+    css: {
+      devSourcemap: true, // Generate CSS source maps in dev mode
+    },
     resolve: {
       alias: {
         '@': resolve(__dirname, './src'),
@@ -24,5 +27,8 @@ export default defineConfig({
 
   output: 'server',
   adapter: netlify(),
-  integrations: [db()],
+  // adapter: node({
+  //   mode: 'standalone',
+  // }),
+  integrations: [db(), auth()],
 });

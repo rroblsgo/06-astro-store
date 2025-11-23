@@ -1,0 +1,12 @@
+---
+// src/pages/api/auth/error.astro
+---
+
+<script>
+  // Get the error from URL params
+  const params = new URLSearchParams(window.location.search);
+  const error = params.get('error');
+
+  // Redirect back to login with error info
+  window.location.href = '/login?error=' + (error || 'unknown');
+</script>

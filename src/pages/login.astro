@@ -1,5 +1,6 @@
 ---
 import AuthLayout from '@/layouts/AuthLayout.astro';
+import '@/styles/global.css';
 ---
 
 <AuthLayout>
@@ -91,40 +92,41 @@ import AuthLayout from '@/layouts/AuthLayout.astro';
 <script>
   import { actions } from 'astro:actions';
   import Swal from 'sweetalert2';
-
+  const { signIn } = await import('auth-astro/client');
+  // await setTimeout(async (resolve) => {
+  //   resolve('listo');
+  // }, 2000);
   const form = document.querySelector('form') as HTMLFormElement;
   const btnSubmit = document.querySelector('#btn-submit') as HTMLButtonElement;
   const bntGoogle = document.querySelector('#btn-google') as HTMLButtonElement;
 
-  // const { signIn } = await import('auth-astro/client');
+  // Check if there's an error in the URL (redirected from auth error)
+  const urlParams = new URLSearchParams(window.location.search);
+  const error = urlParams.get('error');
+
+  if (error) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Error en el login',
+      text: 'Usuario / Contraseña no son correctos',
+    });
+    // Clean the URL
+    window.history.replaceState({}, document.title, window.location.pathname);
+  }
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
+
     btnSubmit.setAttribute('disabled', 'disabled');
+    btnSubmit.innerText = 'Ingresando...';
 
     const formData = new FormData(form);
 
-    // const resp = await signIn('credentials', {
-    //   email: formData.get('email') as string,
-    //   password: formData.get('password') as string,
-    //   redirect: false,
-    // });
-    const resp = {};
-    console.log({ resp });
-
-    if (resp) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Error al ingresar',
-        // text: error.message,
-        text: 'Usuario / Contraseña no son correctos',
-      });
-      btnSubmit.removeAttribute('disabled');
-      return;
-    }
-
-    // TODO:
-    window.location.replace('/');
+    await signIn('credentials', {
+      email: formData.get('email') as string,
+      password: formData.get('password') as string,
+      callbackUrl: '/',
+    });
   });
 
   bntGoogle.addEventListener('click', async () => {

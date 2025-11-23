@@ -1,16 +1,12 @@
-/// <reference types="astro/client" />
+import { DefaultSession, DefaultUser } from '@auth/core/types';
 
-interface User {
-  name: string;
-  email: string;
-  avatar: string;
-  emailVerified: boolean;
-}
+declare module '@auth/core/types' {
+  interface User extends DefaultUser {
+    role?: string;
+    createdAt?: date;
+  }
 
-declare namespace App {
-  interface Locals {
-    isLoggedIn: boolean;
-    isAdmin: boolean;
-    user: User | null;
+  interface Session extends DefaultSession {
+    user: User;
   }
 }
