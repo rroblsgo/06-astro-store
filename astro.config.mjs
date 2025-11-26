@@ -7,6 +7,8 @@ import auth from 'auth-astro';
 import { dirname, resolve } from 'path';
 import { fileURLToPath } from 'url';
 
+import react from '@astrojs/react';
+
 // import node from '@astrojs/node';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -30,5 +32,5 @@ export default defineConfig({
   // adapter: node({
   //   mode: 'standalone',
   // }),
-  integrations: [db(), auth()],
+  integrations: [db(), auth(), react()],
 });
